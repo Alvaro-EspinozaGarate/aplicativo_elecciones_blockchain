@@ -1,0 +1,17 @@
+# Antes de probar el sistema debes de instalar dentro de tu terminal:
+pip install django
+
+# Luego aplicar los siguientes comandos en el terminal:
+python manage.py makemigrations
+python manage.py migrate
+
+# Tambien debes de crear tu usuario y luego sigue los pasos que te indica la terminal (Siempre y cuando no tengas un usuario creado):
+python manage.py createsuperuser
+
+
+# Ejecuta la aplicacion en el terminal:
+python manage.py runserver
+
+# Luego abrir el enlace:
+http://127.0.0.1:8000/
+
