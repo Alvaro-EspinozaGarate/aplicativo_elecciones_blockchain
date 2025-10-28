@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de usuario</title>
+</head>
+<body>
+    <h2>Bienvenido, {{ request.user.username }}</h2>
+
+    {% if voto %}
+        <h3>✅ Ya votaste</h3>
+        <p>Tu voto fue por: <strong>{{ voto.candidato.nombre }}</strong></p>
+        <p>Fecha: {{ voto.fecha }}</p>
+        <p><a href="{% url 'resultados' %}">Ver resultados</a></p>
+    {% else %}
+        <h3>🗳️ Aún no has votado</h3>
+        <p><a href="{% url 'votar' %}">Ir a votar ahora</a></p>
+    {% endif %}
+
+    <hr>
+    <p><a href="{% url 'logout' %}">Cerrar sesión</a></p>
+</body>
+</html>

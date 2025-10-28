@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados</title>
+</head>
+<body>
+    <h2>Resultados de la votación</h2>
+    <table border="1">
+        <tr>
+            <th>Candidato</th>
+            <th>Partido</th>
+            <th>Votos</th>
+        </tr>
+        {% for c in resultados %}
+        <tr>
+            <td>{{ c.nombre }}</td>
+            <td>{{ c.partido }}</td>
+            <td>{{ c.total_votos }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p><a href="{% url 'logout' %}">Cerrar sesión</a></p>
+</body>
+</html>

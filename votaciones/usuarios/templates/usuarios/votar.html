@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Votar</title>
+</head>
+<body>
+    <h2>Hola {{ request.user.username }}, elige tu candidato:</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for c in candidatos %}
+            <div>
+                <input type="radio" name="candidato" value="{{ c.id }}" required>
+                <label>{{ c.nombre }} {% if c.partido %}({{ c.partido }}){% endif %}</label>
+            </div>
+        {% endfor %}
+        <br>
+        <button type="submit">Enviar voto</button>
+    </form>
+</body>
+</html>
