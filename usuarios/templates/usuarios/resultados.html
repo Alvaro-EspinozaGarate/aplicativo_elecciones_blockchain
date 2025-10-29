@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>Resultados de la votación - Grupo 3</title>
+    <link rel="shortcut icon" href="{% static 'img/voto.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/resultados.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="resultados-container">
+        <h1>Resultados Generales</h1>
+        <div class="tabla-resultados">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidato</th>
+                        <th>Partido</th>
+                        <th>Votos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in resultados %}
+                    <tr>
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.partido }}</td>
+                        <td>{{ c.total_votos }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{% url 'logout' %}" class="btn-salir">Cerrar sesión</a>
+    </div>
+</body>
+</html>
+

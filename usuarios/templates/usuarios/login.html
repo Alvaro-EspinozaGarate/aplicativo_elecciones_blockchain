@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - Grupo 3</title>
+    <link rel="shortcut icon" href="{% static 'img/voto.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="login-modern-body">
+
+    <div class="login-modern-container">
+
+        <div class="login-modern-form">
+            <h2>Iniciar Sesión</h2>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="mensaje-error">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <label>Usuario</label>
+                <input type="text" name="username" placeholder="Tu nombre de usuario" required>
+
+                <label>Contraseña</label>
+                <input type="password" name="password" placeholder="Tu contraseña" required>
+
+                <button type="submit" class="btn-login">Entrar</button>
+            </form>
+        </div>
+
+        <div class="login-modern-imagen">
+            <img src="{% static 'img/voto.png' %}" alt="Ilustración de votación electrónica">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+/* --- Estilo general --- */
+body.login-modern-body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #e2652b, #6a5acd);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* --- Contenedor principal --- */
+.login-modern-container {
+    display: flex;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+    width: 900px;
+    overflow: hidden;
+}
+
+/* --- Panel izquierdo (formulario) --- */
+.login-modern-form {
+    width: 50%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-modern-form h2 {
+    color: #2a2a2a;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.texto-secundario {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.texto-secundario a {
+    color: #8a2be2;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+label {
+    font-weight: 600;
+    color: #333;
+    margin-top: 10px;
+}
+
+input[type="text"], 
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #8a2be2;
+    box-shadow: 0 0 6px rgba(138, 43, 226, 0.4);
+}
+
+.btn-login {
+    width: 100%;
+    background-color: #e2862b;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #c85707ef;
+    transform: translateY(-2px);
+}
+
+.mensaje-error {
+    color: red;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+/* --- Panel derecho (imagen) --- */
+.login-modern-imagen {
+    width: 50%;
+    background: #f9f9ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-modern-imagen img {
+    width: 90%;
+    max-width: 400px;
+}

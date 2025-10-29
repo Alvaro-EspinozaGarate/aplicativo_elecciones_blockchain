@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>Panel de Votación</title>
+    <link rel="shortcut icon" href="{% static 'img/voto.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="contenedor">
+        <div class="tarjeta">
+            <h2>Bienvenido, {{ request.user.username }} 👋</h2>
+
+            {% if request.user.is_authenticated %}
+                <p class="mensaje">Accede a tu panel para registrar tu voto.</p>
+                <div class="botones">
+                    <a href="{% url 'votar' %}" class="btn votar">Ir a votar 🗳️</a>
+                    <a href="{% url 'logout' %}" class="btn salir">Cerrar sesión</a>
+                </div>
+            {% else %}
+                <p class="mensaje">Por favor, inicia sesión para continuar.</p>
+                <div class="botones">
+                    <a href="{% url 'login' %}" class="btn votar">Iniciar sesión 🔐</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+

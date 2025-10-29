@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>Votación en línea - Grupo 3</title>
+    <link rel="shortcut icon" href="{% static 'img/voto.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/votar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="votar-container">
+        <header class="votar-header">
+            <img src="{% static 'img/voto.png' %}" alt="Logo" class="logo">
+            <h1>Elección Universitaria 2025</h1>
+        </header>
+
+        <h2>Hola, {{ request.user.username }}</h2>
+        <p>Selecciona tu candidato favorito:</p>
+
+        <form method="post" class="candidatos-form">
+            {% csrf_token %}
+            <div class="candidatos-grid">
+                {% for c in candidatos %}
+                <label class="candidato-card">
+                    <input type="radio" name="candidato" value="{{ c.id }}" required>
+
+                    <div class="candidato-info">
+                        <h3>{{ c.nombre }}</h3>
+                        <p>{{ c.partido }}</p>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn-votar">Enviar voto</button>
+        </form>
+
+        <footer>
+            <a href="{% url 'logout' %}" class="logout">Cerrar sesión</a>
+        </footer>
+    </div>
+</body>
+</html>
+

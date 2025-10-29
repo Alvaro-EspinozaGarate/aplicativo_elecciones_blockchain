@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/voto_realizado.css' %}">
+    <title>Voto registrado - Grupo 3</title>
+    <link rel="shortcut icon" href="{% static 'img/voto.png' %}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="contenedor">
+        <div class="icono-voto">🗳️</div>
+        <h2>¡Gracias, {{ request.user.username }}!</h2>
+
+        {% if voto %}
+            <p>Ya registraste tu voto por <strong>{{ voto.candidato.nombre }}</strong>.</p>
+        {% else %}
+            <p>No encontramos tu voto registrado.</p>
+        {% endif %}
+
+        <p><a href="{% url 'resultados' %}">Ver resultados</a></p>
+        <p><a href="{% url 'logout' %}">Cerrar sesión</a></p>
+    </div>
+</body>
+</html>
