@@ -3,28 +3,39 @@
 <head>
     <meta charset="UTF-8">
     {% load static %}
-    <title>Votación en línea - Grupo 3</title>
-    <link rel="shortcut icon" href="{% static 'img/voto.png' %}" type="image/x-icon">
+    <title>Votación en línea - Shajo Chain</title>
+    <link rel="shortcut icon" href="{% static 'img/logo_shajo.svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/votar.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- NAVBAR ESTILO BOOTSTRAP -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'votar' %}">
+                <img src="{% static 'img/g82.svg' %}" alt="Logo" width="150" class="align-text-top">
+            </a>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
     <div class="votar-container">
         <header class="votar-header">
-            <img src="{% static 'img/voto.png' %}" alt="Logo" class="logo">
-            <h1>Elección Universitaria 2025</h1>
+            <h1>🗳️ Elección Universitaria 2025</h1>
+            <p class="bienvenida">Hola, <strong>{{ request.user.username }}</strong>. Emite tu voto de forma segura y transparente.</p>
         </header>
-
-        <h2>Hola, {{ request.user.username }}</h2>
-        <p>Selecciona tu candidato favorito:</p>
 
         <form method="post" class="candidatos-form">
             {% csrf_token %}
+            <p class="instruccion">Selecciona tu candidato favorito:</p>
+
             <div class="candidatos-grid">
                 {% for c in candidatos %}
                 <label class="candidato-card">
                     <input type="radio" name="candidato" value="{{ c.id }}" required>
-
+                    <div class="candidato-foto">
+                        <img src="{% static 'img/candidatos/voto.png' %}{{ c.foto }}" alt="{{ c.nombre }}">
+                    </div>
                     <div class="candidato-info">
                         <h3>{{ c.nombre }}</h3>
                         <p>{{ c.partido }}</p>
@@ -32,13 +43,9 @@
                 </label>
                 {% endfor %}
             </div>
+
             <button type="submit" class="btn-votar">Enviar voto</button>
         </form>
-
-        <footer>
-            <a href="{% url 'logout' %}" class="logout">Cerrar sesión</a>
-        </footer>
     </div>
 </body>
 </html>
-

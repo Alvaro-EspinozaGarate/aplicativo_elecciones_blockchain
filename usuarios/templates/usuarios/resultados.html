@@ -3,14 +3,25 @@
 <head>
     <meta charset="UTF-8">
     {% load static %}
-    <title>Resultados de la votación - Grupo 3</title>
-    <link rel="shortcut icon" href="{% static 'img/voto.png' %}" type="image/x-icon">
+    <title>Resultados de la Votación - Shajo Chain</title>
+    <link rel="shortcut icon" href="{% static 'img/logo_shajo.svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/resultados.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'resultados' %}">
+                <img src="{% static 'img/g82.svg' %}" alt="Logo" width="150" class="align-text-top">
+            </a>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO -->
     <div class="resultados-container">
-        <h1>Resultados Generales</h1>
+        <h1>📊 Resultados Generales</h1>
+
         <div class="tabla-resultados">
             <table>
                 <thead>
@@ -31,8 +42,8 @@
                 </tbody>
             </table>
         </div>
+
         <a href="{% url 'logout' %}" class="btn-salir">Cerrar sesión</a>
     </div>
 </body>
 </html>
-

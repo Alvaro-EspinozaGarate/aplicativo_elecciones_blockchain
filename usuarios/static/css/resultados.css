@@ -1,57 +1,93 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0044cc, #00aaff);
-    color: white;
+    background: linear-gradient(135deg, #f3f8ff, #e6f0fa);
+    color: #003366;
     margin: 0;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
+/* NAVBAR */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dce3ec;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-brand img {
+    display: block;
+}
+
+/* RESULTADOS */
 .resultados-container {
-    width: 80%;
+    width: 85%;
     max-width: 900px;
-    background: rgba(255, 255, 255, 0.1);
+    background: #ffffff;
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     text-align: center;
+    margin: 130px auto 40px;
 }
 
 h1 {
-    margin-bottom: 30px;
+    color: #003366;
+    margin-bottom: 25px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
+    border-radius: 12px;
     overflow: hidden;
 }
 
 th, td {
     padding: 15px;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid #e0e6ef;
 }
 
 th {
-    background: rgba(0,0,0,0.2);
+    background: #e6f0fa;
+    color: #003366;
     font-weight: 600;
 }
 
-tr:hover {
-    background: rgba(255,255,255,0.15);
+tr:nth-child(even) {
+    background: #f9fcff;
 }
 
+tr:hover {
+    background: #e8f7ff;
+    transition: 0.3s;
+}
+
+/* BOTÓN SALIR */
 .btn-salir {
     display: inline-block;
-    margin-top: 20px;
-    background: #00ff88;
-    color: #003366;
+    margin-top: 25px;
+    background: #00bfa6;
+    color: white;
     padding: 10px 25px;
     border-radius: 20px;
     text-decoration: none;
     font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-salir:hover {
+    background: #009e8b;
+    transform: scale(1.05);
 }

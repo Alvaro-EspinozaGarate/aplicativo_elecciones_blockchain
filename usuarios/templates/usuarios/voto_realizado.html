@@ -4,23 +4,35 @@
     <meta charset="UTF-8">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/voto_realizado.css' %}">
-    <title>Voto registrado - Grupo 3</title>
-    <link rel="shortcut icon" href="{% static 'img/voto.png' %}" type="image/x-icon">
+    <title>Voto registrado - Shajo Chain</title>
+    <link rel="shortcut icon" href="{% static 'img/logo_shajo.svg' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <div class="contenedor">
-        <div class="icono-voto">🗳️</div>
+        <!-- Logo -->
+        <img src="{% static 'img/shajo.svg' %}" alt="Logo Shajo Chain" class="logo-principal">
+
+        <!-- Título principal -->
         <h2>¡Gracias, {{ request.user.username }}!</h2>
 
+        <!-- Contenido condicional -->
         {% if voto %}
-            <p>Ya registraste tu voto por <strong>{{ voto.candidato.nombre }}</strong>.</p>
+            <h3>🗳️ Tu voto ha sido registrado exitosamente</h3>
+            <p>Has votado por: <strong>{{ voto.candidato.nombre }}</strong></p>
         {% else %}
-            <p>No encontramos tu voto registrado.</p>
+            <h3>⚠️ No encontramos tu voto registrado</h3>
+            <p>Si crees que es un error, por favor vuelve a intentarlo.</p>
         {% endif %}
 
-        <p><a href="{% url 'resultados' %}">Ver resultados</a></p>
-        <p><a href="{% url 'logout' %}">Cerrar sesión</a></p>
+        <!-- Botones -->
+        <div class="botones">
+            <a href="{% url 'resultados' %}" class="btn">Ver resultados</a>
+            <a href="{% url 'logout' %}" class="btn btn-logout">Cerrar sesión</a>
+        </div>
     </div>
+
 </body>
 </html>
+

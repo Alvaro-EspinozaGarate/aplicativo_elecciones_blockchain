@@ -3,25 +3,31 @@
 <head>
     <meta charset="UTF-8">
     {% load static %}
+    <title>Panel de Usuario - Shajo Chain</title>
+    <link rel="shortcut icon" href="{% static 'img/logo_shajo.svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/voto_realizado.css' %}">
-    <title>Panel de usuario</title>
-    <link rel="shortcut icon" href="{% static 'img/voto.png' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h2>Bienvenido, {{ request.user.username }}</h2>
 
-    {% if voto %}
-        <h3>✅ Ya votaste</h3>
-        <p>Tu voto fue por: <strong>{{ voto.candidato.nombre }}</strong></p>
-        <p>Fecha: {{ voto.fecha }}</p>
-        <p><a href="{% url 'resultados' %}">Ver resultados</a></p>
-    {% else %}
-        <h3>🗳️ Aún no has votado</h3>
-        <p><a href="{% url 'votar' %}">Ir a votar ahora</a></p>
-    {% endif %}
+    <div class="contenedor">
+        <img src="{% static 'img/shajo.svg' %}" alt="Logo Shajo Chain" class="logo-principal">
 
-    <hr>
-    <p><a href="{% url 'logout' %}">Cerrar sesión</a></p>
+        <h2>Bienvenido, {{ request.user.username }}</h2>
+
+        {% if voto %}
+            <h3>✅ ¡Ya realizaste tu voto!</h3>
+            <p>Tu voto fue por: <strong>{{ voto.candidato.nombre }}</strong></p>
+            <p>Fecha: {{ voto.fecha }}</p>
+            <a href="{% url 'resultados' %}" class="btn">Ver resultados</a>
+        {% else %}
+            <h3>🗳️ Aún no has votado</h3>
+            <a href="{% url 'votar' %}" class="btn">Ir a votar ahora</a>
+        {% endif %}
+
+        <hr>
+        <a href="{% url 'logout' %}" class="btn btn-logout">Cerrar sesión</a>
+    </div>
+
 </body>
 </html>
