@@ -31,5 +31,31 @@
         ],
         "proof": 12345,
         "previous_hash": "da2f046a67f21d115f04ff5beba50e98ef1508c7327c5c5def524d04079e598b"
+    },
+    {
+        "index": 4,
+        "timestamp": 1763080738.625699,
+        "transactions": [
+            {
+                "usuario": "brayan",
+                "candidato": "Jordan Valenzuela Galv\u00e1n",
+                "timestamp": 1763080738.625699
+            }
+        ],
+        "proof": 12345,
+        "previous_hash": "a4a7b70488b968a67c715addbf5885f955825fc941afe146ebee71677e1f15c5"
+    },
+    {
+        "index": 5,
+        "timestamp": 1763176550.8151968,
+        "transactions": [
+            {
+                "usuario": "aespinozaga",
+                "candidato": "Josue Julca Ze\u00f1a",
+                "timestamp": 1763176550.8151968
+            }
+        ],
+        "proof": 12345,
+        "previous_hash": "fd209db8b90b110f1cb9bffe7093881c5c8e64217085167fa4cbe40aaf7f2bd0"
     }
 ]

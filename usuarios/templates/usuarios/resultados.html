@@ -29,14 +29,28 @@
                         <th>Candidato</th>
                         <th>Partido</th>
                         <th>Votos</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for c in resultados %}
+                    {% for candidato in resultados %}
                     <tr>
-                        <td>{{ c.nombre }}</td>
-                        <td>{{ c.partido }}</td>
-                        <td>{{ c.total_votos }}</td>
+                        <td>{{ candidato.nombre }}</td>
+                        <td>{{ candidato.partido }}</td>
+                        <td>{{ candidato.total_votos }}</td>
+
+                        <td>
+                            {% if candidato in empatados %}
+                                {% if empatados|length > 1 %}
+                                    <span class="badge bg-warning text-dark">EMPATE</span>
+                                {% else %}
+                                    <span class="badge bg-success">GANADOR</span>
+                                {% endif %}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+
                     </tr>
                     {% endfor %}
                 </tbody>

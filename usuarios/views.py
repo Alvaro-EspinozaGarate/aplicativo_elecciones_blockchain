@@ -46,8 +46,28 @@ def votar_view(request):
 
 @login_required
 def resultados_view(request):
-    resultados = Candidato.objects.annotate(total_votos=Count('voto')).order_by('-total_votos')
-    return render(request, 'usuarios/resultados.html', {'resultados': resultados})
+    resultados = (
+        Candidato.objects
+        .annotate(total_votos=Count('voto'))
+        .order_by('-total_votos')
+    )
+
+    if not resultados:
+        return render(request, 'usuarios/resultados.html', {
+            'resultados': resultados,
+            'empatados': [],
+        })
+
+    max_votos = resultados[0].total_votos
+
+    # Lista de candidatos que están empatados en primer lugar
+    empatados = [c for c in resultados if c.total_votos == max_votos]
+
+    return render(request, 'usuarios/resultados.html', {
+        'resultados': resultados,
+        'empatados': empatados,
+    })
+
 
 @login_required
 def voto_realizado_view(request):
@@ -77,12 +97,12 @@ def votar_view(request):
             candidato = Candidato.objects.get(id=candidato_id)
             Voto.objects.create(usuario=request.user, candidato=candidato)
 
-            # 🔹 Registrar voto en blockchain local
+            # Registrar voto en blockchain local
             blockchain.new_transaction(usuario=request.user.username, candidato=candidato.nombre)
             last_block = blockchain.last_block
             blockchain.new_block(proof=12345)  # prueba simple
 
-            # 🔹 Opcional: guardar blockchain en archivo local (persistencia)
+            # Opcional: guardar blockchain en archivo local (persistencia)
             with open('blockchain.json', 'w') as f:
                 json.dump(blockchain.chain, f, indent=4)
 
