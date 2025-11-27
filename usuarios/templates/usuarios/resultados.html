@@ -1,63 +1,110 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    {% load static %}
-    <title>Resultados de la Votación - Shajo Chain</title>
-    <link rel="shortcut icon" href="{% static 'img/logo_shajo.svg' %}" type="image/x-icon">
+    <title>Resultados - Shajo Chain</title>
+
+    <link rel="shortcut icon" href="{% static 'img/logo_shajo.svg' %}">
     <link rel="stylesheet" href="{% static 'css/resultados.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'resultados' %}">
-                <img src="{% static 'img/g82.svg' %}" alt="Logo" width="150" class="align-text-top">
-            </a>
-        </div>
-    </nav>
 
-    <!-- CONTENIDO -->
     <div class="resultados-container">
-        <h1>📊 Resultados Generales</h1>
 
-        <div class="tabla-resultados">
-            <table>
+        <h1 class="titulo-principal">📊 Resultados de la Elección Universitaria 2025</h1>
+
+        <!-- SECCIÓN RECTOR -->
+        <section class="seccion-resultado">
+            <h2>🏛️ Resultado para Rector</h2>
+
+            {% if resultados_rector %}
+            <table class="tabla-resultados">
                 <thead>
                     <tr>
                         <th>Candidato</th>
                         <th>Partido</th>
                         <th>Votos</th>
-                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for candidato in resultados %}
-                    <tr>
-                        <td>{{ candidato.nombre }}</td>
-                        <td>{{ candidato.partido }}</td>
-                        <td>{{ candidato.total_votos }}</td>
-
-                        <td>
-                            {% if candidato in empatados %}
-                                {% if empatados|length > 1 %}
-                                    <span class="badge bg-warning text-dark">EMPATE</span>
-                                {% else %}
-                                    <span class="badge bg-success">GANADOR</span>
-                                {% endif %}
-                            {% else %}
-                                —
-                            {% endif %}
-                        </td>
-
+                    {% for c in resultados_rector %}
+                    <tr class="
+                        {% if empatados_rector|length == 1 and c.id == empatados_rector.0.id %}
+                            ganador
+                        {% endif %}
+                    ">
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.partido }}</td>
+                        <td>{{ c.total_votos }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
 
-        <a href="{% url 'logout' %}" class="btn-salir">Cerrar sesión</a>
+            {% if empatados_rector|length > 1 %}
+            <div class="alerta-empate">
+                <strong>⚠ Empate:</strong>
+                {% for c in empatados_rector %}
+                    {{ c.nombre }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% else %}
+                <p>No hay votos registrados para este cargo.</p>
+            {% endif %}
+        </section>
+
+
+        <hr class="division">
+
+        <!-- SECCIÓN VICERRECTOR -->
+        <section class="seccion-resultado">
+            <h2>🏫 Resultado para Vicerrector</h2>
+
+            {% if resultados_vicerrector %}
+            <table class="tabla-resultados">
+                <thead>
+                    <tr>
+                        <th>Candidato</th>
+                        <th>Partido</th>
+                        <th>Votos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in resultados_vicerrector %}
+                    <tr class="
+                        {% if empatados_vicerrector|length == 1 and c.id == empatados_vicerrector.0.id %}
+                            ganador
+                        {% endif %}
+                    ">
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.partido }}</td>
+                        <td>{{ c.total_votos }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if empatados_vicerrector|length > 1 %}
+            <div class="alerta-empate">
+                <strong>⚠ Empate:</strong>
+                {% for c in empatados_vicerrector %}
+                    {{ c.nombre }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% else %}
+                <p>No hay votos registrados para este cargo.</p>
+            {% endif %}
+        </section>
+        <br>
+        <a href="{% url 'panel' %}" class="btn-volver">Volver al Panel</a>
     </div>
+    <br>
 </body>
 </html>

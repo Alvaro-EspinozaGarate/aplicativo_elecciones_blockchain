@@ -34,6 +34,15 @@ class Blockchain:
             'timestamp': time()
         })
         return self.last_block['index'] + 1
+    
+    def add_vote(self, usuario, rector, vicerrector):
+        self.current_transactions.append({
+            "usuario": usuario,
+            "rector": rector,
+            "vicerrector": vicerrector,
+            "timestamp": time()
+        })
+
 
     @staticmethod
     def hash(block):

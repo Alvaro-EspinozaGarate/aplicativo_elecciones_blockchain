@@ -17,7 +17,8 @@
 
         {% if voto %}
             <h3>✅ ¡Ya realizaste tu voto!</h3>
-            <p>Tu voto fue por: <strong>{{ voto.candidato.nombre }}</strong></p>
+            <p>Tu voto a Rector: <strong>{{ voto.rector.nombre }}</strong></p>
+            <p>Tu voto a Vicerrector: <strong>{{ voto.vicerrector.nombre }}</strong></p>
             <p>Fecha: {{ voto.fecha }}</p>
             <a href="{% url 'resultados' %}" class="btn">Ver resultados</a>
         {% else %}

@@ -4,48 +4,90 @@
     <meta charset="UTF-8">
     {% load static %}
     <title>Votación en línea - Shajo Chain</title>
+
     <link rel="shortcut icon" href="{% static 'img/logo_shajo.svg' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/votar.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <!-- NAVBAR ESTILO BOOTSTRAP -->
+
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'votar' %}">
-                <img src="{% static 'img/g82.svg' %}" alt="Logo" width="150" class="align-text-top">
+            <a class="navbar-brand" href="{% url 'panel' %}">
+                <img src="{% static 'img/g82.svg' %}" alt="Logo" width="150">
             </a>
         </div>
     </nav>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- CONTENIDO -->
     <div class="votar-container">
+        
         <header class="votar-header">
             <h1>🗳️ Elección Universitaria 2025</h1>
-            <p class="bienvenida">Hola, <strong>{{ request.user.username }}</strong>. Emite tu voto de forma segura y transparente.</p>
+            <p class="bienvenida">Hola, <strong>{{ request.user.username }}</strong>. Selecciona tus autoridades:</p>
         </header>
 
         <form method="post" class="candidatos-form">
             {% csrf_token %}
-            <p class="instruccion">Selecciona tu candidato favorito:</p>
 
-            <div class="candidatos-grid">
-                {% for c in candidatos %}
-                <label class="candidato-card">
-                    <input type="radio" name="candidato" value="{{ c.id }}" required>
-                    <div class="candidato-foto">
-                        <img src="{% static 'img/candidatos/voto.png' %}{{ c.foto }}" alt="{{ c.nombre }}">
-                    </div>
-                    <div class="candidato-info">
-                        <h3>{{ c.nombre }}</h3>
-                        <p>{{ c.partido }}</p>
-                    </div>
-                </label>
-                {% endfor %}
-            </div>
+            <!-- SECCIÓN RECTOR -->
+            <section class="seccion-cargo">
+                <h2>🏛️ Elección de Rector</h2>
+                <p class="instruccion">Selecciona tu candidato a Rector:</p>
 
+                <div class="candidatos-grid">
+                    {% for c in candidatos_rector %}
+                    <label class="candidato-card">
+                        <input type="radio" name="rector" value="{{ c.id }}" required>
+
+                        <div class="candidato-foto">
+                            <img src="{% static 'img/candidatos/voto.png' %}" alt="{{ c.nombre }}">
+                        </div>
+
+                        <div class="candidato-info">
+                            <h3>{{ c.nombre }}</h3>
+                            <p>{{ c.partido }}</p>
+                        </div>
+                    </label>
+                    {% empty %}
+                    <p>No hay candidatos registrados para Rector.</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <hr class="division">
+
+            <!-- SECCIÓN VICERRECTOR -->
+            <section class="seccion-cargo">
+                <h2>🏫 Elección de Vicerrector</h2>
+                <p class="instruccion">Selecciona tu candidato a Vicerrector:</p>
+
+                <div class="candidatos-grid">
+                    {% for c in candidatos_vicerrector %}
+                    <label class="candidato-card">
+                        <input type="radio" name="vicerrector" value="{{ c.id }}" required>
+
+                        <div class="candidato-foto">
+                            <img src="{% static 'img/candidatos/voto.png' %}" alt="{{ c.nombre }}">
+                        </div>
+
+                        <div class="candidato-info">
+                            <h3>{{ c.nombre }}</h3>
+                            <p>{{ c.partido }}</p>
+                        </div>
+                    </label>
+                    {% empty %}
+                    <p>No hay candidatos registrados para Vicerrector.</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- BOTÓN -->
             <button type="submit" class="btn-votar">Enviar voto</button>
         </form>
     </div>
+
 </body>
 </html>

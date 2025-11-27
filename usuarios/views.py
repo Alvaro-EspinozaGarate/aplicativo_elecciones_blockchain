@@ -27,46 +27,98 @@ def logout_view(request):
 
 @login_required
 def votar_view(request):
-    # Verificar si el usuario ya votó
-    try:
-        voto_existente = Voto.objects.get(usuario=request.user)
-        return render(request, 'usuarios/voto_realizado.html', {'voto': voto_existente})
-    except Voto.DoesNotExist:
-        pass  # El usuario aún no ha votado
+    usuario = request.user
 
-    # Si llega un voto por POST
-    if request.method == 'POST':
-        candidato_id = request.POST.get('candidato')
-        candidato = Candidato.objects.get(id=candidato_id)
-        Voto.objects.create(usuario=request.user, candidato=candidato)
-        return render(request, 'usuarios/voto_realizado.html', {'voto': candidato})
+    # Si ya votó, no permitir votar otra vez
+    if Voto.objects.filter(usuario=usuario).exists():
+        return redirect('voto_realizado')
 
-    candidatos = Candidato.objects.all()
-    return render(request, 'usuarios/votar.html', {'candidatos': candidatos})
+    candidatos_rector = Candidato.objects.filter(cargo="rector")
+    candidatos_vicerrector = Candidato.objects.filter(cargo="vicerrector")
+
+    if request.method == "POST":
+        rector_id = request.POST.get("rector")
+        vicerrector_id = request.POST.get("vicerrector")
+
+        if not rector_id or not vicerrector_id:
+            messages.error(request, "Debe seleccionar ambos candidatos.")
+            return redirect("votar")
+
+        rector = Candidato.objects.get(id=rector_id)
+        vicer = Candidato.objects.get(id=vicerrector_id)
+
+        # Registrar voto en la BD
+        voto = Voto.objects.create(
+            usuario=usuario,
+            rector=rector,
+            vicerrector=vicer
+        )
+
+        # Registrar voto en la blockchain
+        blockchain.add_vote(
+            usuario.username,
+            rector.nombre,
+            vicer.nombre
+        )
+
+        # Crear nuevo bloque automáticamente
+        blockchain.new_block(proof=100)
+
+        # Guardar blockchain en archivo JSON
+        with open('blockchain.json', 'w') as f:
+            json.dump(blockchain.chain, f, indent=4)
+
+        return redirect("voto_realizado")
+
+    return render(request, "usuarios/votar.html", {
+        "usuario": usuario,
+        "candidatos_rector": candidatos_rector,
+        "candidatos_vicerrector": candidatos_vicerrector,
+    })
+
+
+
 
 @login_required
 def resultados_view(request):
-    resultados = (
-        Candidato.objects
-        .annotate(total_votos=Count('voto'))
-        .order_by('-total_votos')
+
+    # Resultados para RECTOR
+    resultados_rector = (
+        Candidato.objects.filter(cargo="rector")
+        .annotate(total_votos=Count("votos_rector"))
+        .order_by("-total_votos")
     )
 
-    if not resultados:
-        return render(request, 'usuarios/resultados.html', {
-            'resultados': resultados,
-            'empatados': [],
-        })
+    # Resultados para VICERRECTOR
+    resultados_vicerrector = (
+        Candidato.objects.filter(cargo="vicerrector")
+        .annotate(total_votos=Count("votos_vicerrector"))
+        .order_by("-total_votos")
+    )
 
-    max_votos = resultados[0].total_votos
+    # Determinar ganadores y empates
+    empatados_rector = []
+    empatados_vicerrector = []
 
-    # Lista de candidatos que están empatados en primer lugar
-    empatados = [c for c in resultados if c.total_votos == max_votos]
+    if resultados_rector:
+        max_votos_rector = resultados_rector[0].total_votos
+        empatados_rector = [
+            c for c in resultados_rector if c.total_votos == max_votos_rector
+        ]
 
-    return render(request, 'usuarios/resultados.html', {
-        'resultados': resultados,
-        'empatados': empatados,
+    if resultados_vicerrector:
+        max_votos_vicer = resultados_vicerrector[0].total_votos
+        empatados_vicerrector = [
+            c for c in resultados_vicerrector if c.total_votos == max_votos_vicer
+        ]
+
+    return render(request, "usuarios/resultados.html", {
+        "resultados_rector": resultados_rector,
+        "resultados_vicerrector": resultados_vicerrector,
+        "empatados_rector": empatados_rector,
+        "empatados_vicerrector": empatados_vicerrector,
     })
+
 
 
 @login_required
@@ -77,41 +129,10 @@ def voto_realizado_view(request):
 @login_required
 def panel_view(request):
     voto = Voto.objects.filter(usuario=request.user).first()
-    contexto = {
-        'voto': voto
-    }
-    return render(request, 'usuarios/panel.html', contexto)
+    return render(request, "usuarios/panel.html", {"voto": voto})
+
 
 # Inicializa blockchain (podrías hacerlo global o singleton)
 blockchain = Blockchain()
 
-@login_required
-def votar_view(request):
-    voto_existente = Voto.objects.filter(usuario=request.user).first()
-    if voto_existente:
-        return render(request, 'usuarios/voto_realizado.html', {'voto': voto_existente})
-
-    if request.method == 'POST':
-        candidato_id = request.POST.get('candidato')
-        try:
-            candidato = Candidato.objects.get(id=candidato_id)
-            Voto.objects.create(usuario=request.user, candidato=candidato)
-
-            # Registrar voto en blockchain local
-            blockchain.new_transaction(usuario=request.user.username, candidato=candidato.nombre)
-            last_block = blockchain.last_block
-            blockchain.new_block(proof=12345)  # prueba simple
-
-            # Opcional: guardar blockchain en archivo local (persistencia)
-            with open('blockchain.json', 'w') as f:
-                json.dump(blockchain.chain, f, indent=4)
-
-            messages.success(request, f"Voto registrado y verificado en blockchain.")
-            return render(request, 'usuarios/voto_realizado.html', {'voto': candidato})
-        except Candidato.DoesNotExist:
-            messages.error(request, "El candidato seleccionado no existe.")
-            return redirect('votar')
-
-    candidatos = Candidato.objects.all()
-    return render(request, 'usuarios/votar.html', {'candidatos': candidatos})
 

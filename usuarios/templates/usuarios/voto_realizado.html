@@ -20,7 +20,11 @@
         <!-- Contenido condicional -->
         {% if voto %}
             <h3>🗳️ Tu voto ha sido registrado exitosamente</h3>
-            <p>Has votado por: <strong>{{ voto.candidato.nombre }}</strong></p>
+            <p>Has votado por:</p>
+                
+                    <strong>Rector:</strong> {{ voto.rector.nombre }}<br>
+                    <strong>Vicerrector:</strong> {{ voto.vicerrector.nombre }}
+                
         {% else %}
             <h3>⚠️ No encontramos tu voto registrado</h3>
             <p>Si crees que es un error, por favor vuelve a intentarlo.</p>
