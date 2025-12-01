@@ -1,4 +1,4 @@
-dj_database_url==3.0.1
+dj_database_url
 Django==5.2.8
 gunicorn
 whitenoise
