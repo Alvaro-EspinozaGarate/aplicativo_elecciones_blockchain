@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: votaciones
+    runtime: python
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn votaciones.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: votaciones-db
+          property: connectionString
+
+databases:
+  - name: votaciones-db
+    plan: free
