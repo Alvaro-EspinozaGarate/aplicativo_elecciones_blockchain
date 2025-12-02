@@ -15,8 +15,17 @@ candidatos = [
     {"nombre": "Ana Torres", "partido": "Partido D", "cargo": "vicerrector"},
 ]
 
-# Crear candidatos si no existen
-for c in candidatos:
-    Candidato.objects.get_or_create(nombre=c["nombre"], cargo=c["cargo"], defaults={"partido": c["partido"]})
+# BORRAR todo antes
+print("Eliminando candidatos anteriores...")
+Candidato.objects.all().delete()
 
-print("Candidatos iniciales creados o ya existentes.")
+# Crear nuevamente
+print("Creando candidatos iniciales...")
+for c in candidatos:
+    Candidato.objects.create(
+        nombre=c["nombre"],
+        partido=c["partido"],
+        cargo=c["cargo"]
+    )
+
+print("Candidatos recreados correctamente.")
